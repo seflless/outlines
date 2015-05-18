@@ -1,6 +1,6 @@
 {
   "name": "outlines",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Recognize drawn shapes.",
   "main": "src/outlines.js",
   "scripts": {
@@ -15,7 +15,6 @@
   ],
   "author": "",
   "license": "New BSD License",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/francoislaberge/outlines"

@@ -12,4 +12,4 @@ Recognize drawn shapes based on their point clouds.
 **TODO:** Fill this out.
 
 ## References
-  - Based on the [http://depts.washington.edu/aimgroup/proj/dollar/pdollar.html]($P Point-Cloud Recognizer) research work.
+  - Based on the [$P Point-Cloud Recognizer](http://depts.washington.edu/aimgroup/proj/dollar/pdollar.html) research work.

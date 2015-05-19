@@ -40,7 +40,7 @@
  *    * Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *    * Neither the names of the University Stefan cel Mare of Suceava, 
+ *    * Neither the names of the University Stefan cel Mare of Suceava,
  *	University of Washington, nor UMBC, nor the names of its contributors
  *	may be used to endorse or promote products derived from this software
  *	without specific prior written permission.
@@ -57,20 +57,25 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
 **/
+(function(){
+
 //
 // Point class
 //
-function Point(x, y, id) // constructor
-{
+
+// constructor
+function Point(x, y, id) {
 	this.X = x;
 	this.Y = y;
 	this.ID = id; // stroke ID to which this point belongs (1,2,...)
 }
+
 //
 // PointCloud class: a point-cloud template
 //
-function PointCloud(name, points) // constructor
-{
+
+// constructor
+function PointCloud(name, points) {
 	this.Name = name;
 	this.Points = Resample(points, NumPoints);
 	this.Points = Scale(this.Points);
@@ -79,11 +84,13 @@ function PointCloud(name, points) // constructor
 //
 // Result class
 //
-function Result(name, score) // constructor
-{
+
+// constructor
+function Result(name, score) {
 	this.Name = name;
 	this.Score = score;
 }
+
 //
 // PDollarRecognizer class constants
 //
@@ -93,8 +100,9 @@ var Origin = new Point(0,0,0);
 //
 // PDollarRecognizer class
 //
-function PDollarRecognizer() // constructor
-{
+
+//constructor
+function PDollarRecognizer() {
 	//
 	// one predefined point-cloud for each gesture
 	//
@@ -205,8 +213,7 @@ function PDollarRecognizer() // constructor
 //
 // Private helper functions from this point down
 //
-function GreedyCloudMatch(points, P)
-{
+function GreedyCloudMatch(points, P) {
 	var e = 0.50;
 	var step = Math.floor(Math.pow(points.length, 1 - e));
 	var min = +Infinity;
@@ -217,8 +224,8 @@ function GreedyCloudMatch(points, P)
 	}
 	return min;
 }
-function CloudDistance(pts1, pts2, start)
-{
+
+function CloudDistance(pts1, pts2, start) {
 	var matched = new Array(pts1.length); // pts1.length == pts2.length
 	for (var k = 0; k < pts1.length; k++)
 		matched[k] = false;
@@ -245,8 +252,8 @@ function CloudDistance(pts1, pts2, start)
 	} while (i != start);
 	return sum;
 }
-function Resample(points, n)
-{
+
+function Resample(points, n) {
 	var I = PathLength(points) / (n - 1); // interval length
 	var D = 0.0;
 	var newpoints = new Array(points[0]);
@@ -271,8 +278,8 @@ function Resample(points, n)
 		newpoints[newpoints.length] = new Point(points[points.length - 1].X, points[points.length - 1].Y, points[points.length - 1].ID);
 	return newpoints;
 }
-function Scale(points)
-{
+
+function Scale(points) {
 	var minX = +Infinity, maxX = -Infinity, minY = +Infinity, maxY = -Infinity;
 	for (var i = 0; i < points.length; i++) {
 		minX = Math.min(minX, points[i].X);
@@ -289,8 +296,9 @@ function Scale(points)
 	}
 	return newpoints;
 }
-function TranslateTo(points, pt) // translates points' centroid
-{
+
+// translates points' centroid
+function TranslateTo(points, pt) {
 	var c = Centroid(points);
 	var newpoints = new Array();
 	for (var i = 0; i < points.length; i++) {
@@ -300,8 +308,8 @@ function TranslateTo(points, pt) // translates points' centroid
 	}
 	return newpoints;
 }
-function Centroid(points)
-{
+
+function Centroid(points) {
 	var x = 0.0, y = 0.0;
 	for (var i = 0; i < points.length; i++) {
 		x += points[i].X;
@@ -311,15 +319,17 @@ function Centroid(points)
 	y /= points.length;
 	return new Point(x, y, 0);
 }
-function PathDistance(pts1, pts2) // average distance between corresponding points in two paths
-{
+
+// average distance between corresponding points in two paths
+function PathDistance(pts1, pts2) {
 	var d = 0.0;
 	for (var i = 0; i < pts1.length; i++) // assumes pts1.length == pts2.length
 		d += Distance(pts1[i], pts2[i]);
 	return d / pts1.length;
 }
-function PathLength(points) // length traversed by a point path
-{
+
+// length traversed by a point path
+function PathLength(points) {
 	var d = 0.0;
 	for (var i = 1; i < points.length; i++)
 	{
@@ -328,9 +338,23 @@ function PathLength(points) // length traversed by a point path
 	}
 	return d;
 }
-function Distance(p1, p2) // Euclidean distance between two points
-{
+
+// Euclidean distance between two points
+function Distance(p1, p2) {
 	var dx = p2.X - p1.X;
 	var dy = p2.Y - p1.Y;
 	return Math.sqrt(dx * dx + dy * dy);
 }
+
+var outlines = {
+        Point,
+        Recognizer
+    };
+
+if ( typeof module !== 'undefined' && typeof module.exports !== 'undefined' ) {
+    module.exports = outlines;
+} else {
+    window.outlines = outlines;
+}
+
+})();

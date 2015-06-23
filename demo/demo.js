@@ -1,7 +1,8 @@
 (function(){
 
 var cvs = document.getElementById("cvs"),
-    ctx = cvs.getContext('2d');
+    ctx = cvs.getContext('2d'),
+    recognizer = new outlines.Recognizer();
 
 cvs.width = 800;
 cvs.height = 800;
@@ -22,12 +23,19 @@ function line(x0, y0, x1, y1){
 
 var lastX = 0,
     lastY = 0,
-    mouseIsDown = false;
+    mouseIsDown = false,
+    points = [],
+    strokeId = 0;
+
 document.addEventListener("mousedown", function(event){
     lastX = event.clientX;
     lastY = event.clientY;
 
     mouseIsDown = true;
+
+    strokeId++;
+
+    points.push( new outlines.Point(lastX, lastY, strokeId) );
 }, false);
 
 document.addEventListener("mousemove", function(){
@@ -38,10 +46,26 @@ document.addEventListener("mousemove", function(){
 
     lastX = event.clientX;
     lastY = event.clientY;
+
+    points.push( new outlines.Point(lastX, lastY, strokeId) );
 }, false);
 
 document.addEventListener("mouseup", function(){
     mouseIsDown = false;
+}, false);
+
+document.addEventListener("keydown", function(event){
+    if( event.keyCode === 32 ) {
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,cvs.width, cvs.height);
+
+        var result = recognizer.Recognize(points);
+        console.log( "Result: " + result.Name + " (" + result.Score.toFixed(2) + ")." );
+        points = [];
+        strokeId = 0;
+
+        event.preventDefault();
+    }
 }, false);
 
 })();

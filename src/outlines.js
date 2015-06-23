@@ -347,8 +347,8 @@ function Distance(p1, p2) {
 }
 
 var outlines = {
-        Point,
-        Recognizer
+        Point: Point,
+        Recognizer: PDollarRecognizer
     };
 
 if ( typeof module !== 'undefined' && typeof module.exports !== 'undefined' ) {

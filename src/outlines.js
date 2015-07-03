@@ -279,7 +279,11 @@ function Resample(points, n) {
 	return newpoints;
 }
 
+// Scale the points so they in a normalized box with x & y = [0,1]. This makes
+// comparing gestures against point clouds scale invariant
 function Scale(points) {
+
+	// Find the bounding box of points
 	var minX = +Infinity, maxX = -Infinity, minY = +Infinity, maxY = -Infinity;
 	for (var i = 0; i < points.length; i++) {
 		minX = Math.min(minX, points[i].X);
@@ -287,7 +291,12 @@ function Scale(points) {
 		maxX = Math.max(maxX, points[i].X);
 		maxY = Math.max(maxY, points[i].Y);
 	}
+
+	// Figure out the max dimension (either the width or height is biggest)
 	var size = Math.max(maxX - minX, maxY - minY);
+
+	// Scale points down into a square of 1.0 x 1.0 dimensions, while maintaining
+	// x/y proportions
 	var newpoints = new Array();
 	for (var i = 0; i < points.length; i++) {
 		var qx = (points[i].X - minX) / size;
@@ -297,7 +306,9 @@ function Scale(points) {
 	return newpoints;
 }
 
-// translates points' centroid
+// Translates points' so that their average position becomes the origin
+// NOTE: It seems the pt parameter is redundant as it's always passed an 0,0 vector
+// which makes it have no effect when adding it's components below
 function TranslateTo(points, pt) {
 	var c = Centroid(points);
 	var newpoints = new Array();
@@ -309,6 +320,7 @@ function TranslateTo(points, pt) {
 	return newpoints;
 }
 
+// Compute the average position of all the points
 function Centroid(points) {
 	var x = 0.0, y = 0.0;
 	for (var i = 0; i < points.length; i++) {
@@ -318,14 +330,6 @@ function Centroid(points) {
 	x /= points.length;
 	y /= points.length;
 	return new Point(x, y, 0);
-}
-
-// average distance between corresponding points in two paths
-function PathDistance(pts1, pts2) {
-	var d = 0.0;
-	for (var i = 0; i < pts1.length; i++) // assumes pts1.length == pts2.length
-		d += Distance(pts1[i], pts2[i]);
-	return d / pts1.length;
 }
 
 // length traversed by a point path

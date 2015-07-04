@@ -50,7 +50,6 @@ document.addEventListener("mousemove", function(){
     points.push( new outlines.Point(lastX, lastY, strokeId) );
 
     var matches = recognizer.Rank(points);
-    console.log(matches);
     displayMatches(matches);
 }, false);
 
@@ -75,11 +74,10 @@ document.addEventListener("keydown", function(event){
 }, false);
 
 function displayMatches(matches){
-  var laneWidth = 100;
+  var laneWidth = 100,
+      adjustedWidth = Math.floor(laneWidth * 1.2);
   // Clear background of shapes
-  ctx.fillStyle = "red";
-  ctx.fillRect(cvs.width-laneWidth,0,laneWidth, cvs.height);
-  ctx.fillStyle = "black";
+  ctx.fillRect(cvs.width-adjustedWidth,0,adjustedWidth, cvs.height);
 
   var matchesElem = document.getElementById('matches'),
       output = "<div>",
@@ -92,7 +90,7 @@ function displayMatches(matches){
 
       if(rank>1){
           // Render Canvas Shape Feedback
-          drawPointCloud(matches[i].Name, cvs.width-laneWidth, 10+ i * laneWidth * 1.2, laneWidth);
+          drawPointCloud(matches[i].Name, cvs.width-laneWidth, 10+ i * laneWidth * 1.2, laneWidth, getShade(matches[i].Score) );
 
           // Render DOM UI
           output += "<span>'" + matches[i].Name + "' : " + (rank.toFixed(1)) + "</span></br>";
@@ -103,7 +101,11 @@ function displayMatches(matches){
 
 }
 
-function drawPointCloud(name, x, y, scale){
+function getShade(score){
+  return "rgb("+ Math.floor(score*255) +", "+ Math.floor(score*255) +", "+ Math.floor(score*255) +")";
+}
+
+function drawPointCloud(name, x, y, scale, color){
     var i, points;
     // Find the point cloud based on the supplied name
     for( i = 0; i<recognizer.PointClouds.length; i++){
@@ -124,7 +126,8 @@ function drawPointCloud(name, x, y, scale){
               points[i-1].X * scale + x + scale/2,
               points[i-1].Y * scale + y + scale/2,
               points[i].X * scale + x + scale/2,
-              points[i].Y * scale + y + scale/2
+              points[i].Y * scale + y + scale/2,
+              color
             );
         }
     }

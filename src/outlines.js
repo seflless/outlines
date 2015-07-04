@@ -194,6 +194,39 @@ function PDollarRecognizer() {
 		}
 		return (u == -1) ? new Result("No match.", 0.0) : new Result(this.PointClouds[u].Name, Math.max((b - 2.0) / -2.0, 0.0));
 	};
+
+	/*
+   * Similar to Recognize() but instead of returning the closest match, instead it
+	 * returns a list of matches sorted by the closest match to the farthest
+	 */
+	this.Rank = function(points)
+	{
+		points = Resample(points, NumPoints);
+		points = Scale(points);
+		points = TranslateTo(points, Origin);
+
+
+		// For each point-cloud template
+		var matches = [];
+		for (var i = 0; i < this.PointClouds.length; i++) {
+			  var d = GreedyCloudMatch(points, this.PointClouds[i]);
+			  matches.push( new Result(this.PointClouds[i].Name, Math.max((d - 2.0) / -2.0, 0.0)) );
+		}
+
+		// Sort by score
+		matches.sort( function(a, b){
+			if(a.Score > b.Score){
+					return -1;
+			} else if(a.Score < b.Score){
+					return 1;
+			} else {
+					return 0;
+			}
+		});
+
+		return matches;
+	};
+
 	this.AddGesture = function(name, points)
 	{
 		this.PointClouds[this.PointClouds.length] = new PointCloud(name, points);

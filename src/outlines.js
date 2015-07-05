@@ -77,9 +77,8 @@ function Point(x, y, id) {
 // constructor
 function PointCloud(name, points) {
 	this.Name = name;
-	this.Points = Resample(points, NumPoints);
-	this.Points = Scale(this.Points);
-	this.Points = TranslateTo(this.Points, Origin);
+
+	this.Points = Normalize(points);
 }
 //
 // Result class
@@ -178,9 +177,7 @@ function PDollarRecognizer() {
 	//
 	this.Recognize = function(points)
 	{
-		points = Resample(points, NumPoints);
-		points = Scale(points);
-		points = TranslateTo(points, Origin);
+		points = Normalize(points);
 
 		var b = +Infinity;
 		var u = -1;
@@ -201,10 +198,7 @@ function PDollarRecognizer() {
 	 */
 	this.Rank = function(points)
 	{
-		points = Resample(points, NumPoints);
-		points = Scale(points);
-		points = TranslateTo(points, Origin);
-
+		points = Normalize(points);
 
 		// For each point-cloud template
 		var matches = [];
@@ -286,6 +280,16 @@ function CloudDistance(pts1, pts2, start) {
 	return sum;
 }
 
+/*
+* Gesture points are resampled, scaled with shape preservation, and translated to origin.
+*/
+function Normalize(points){
+	points = Resample(points, NumPoints);
+	points = Scale(points);
+	points = TranslateTo(points, Origin);
+	return points;
+};
+
 function Resample(points, n) {
 	var I = PathLength(points) / (n - 1); // interval length
 	var D = 0.0;
@@ -312,7 +316,7 @@ function Resample(points, n) {
 	return newpoints;
 }
 
-// Scale the points so they in a normalized box with x & y = [0,1]. This makes
+// Scale the points so they are in a normalized box with x & y = [0,1]. This makes
 // comparing gestures against point clouds scale invariant
 function Scale(points) {
 
@@ -339,7 +343,9 @@ function Scale(points) {
 	return newpoints;
 }
 
-// Translates points' so that their average position becomes the origin
+// Translates points' so that their average position becomes the origin (ie the PointCloud's
+// points are centered around the origin)
+//
 // NOTE: It seems the pt parameter is redundant as it's always passed an 0,0 vector
 // which makes it have no effect when adding it's components below
 function TranslateTo(points, pt) {
@@ -385,7 +391,9 @@ function Distance(p1, p2) {
 
 var outlines = {
         Point: Point,
-        Recognizer: PDollarRecognizer
+        Recognizer: PDollarRecognizer,
+				PointCloud: PointCloud,
+				Normalize: Normalize
     };
 
 if ( typeof module !== 'undefined' && typeof module.exports !== 'undefined' ) {

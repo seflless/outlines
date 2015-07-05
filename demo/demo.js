@@ -35,10 +35,15 @@ document.addEventListener("mousedown", function(event){
 
     strokeId++;
 
+
+
     points.push( new outlines.Point(lastX, lastY, strokeId) );
+
+    console.log('mousedown');
 }, false);
 
 document.addEventListener("mousemove", function(){
+    console.log('mousemove');
     if(!mouseIsDown){
         return;
     }
@@ -55,6 +60,7 @@ document.addEventListener("mousemove", function(){
 
 document.addEventListener("mouseup", function(){
     mouseIsDown = false;
+    console.log('mouseup');
 }, false);
 
 document.addEventListener("keydown", function(event){
@@ -67,7 +73,9 @@ document.addEventListener("keydown", function(event){
         points = [];
         strokeId = 0;
 
+        // Clear our matched display info
         displayMatches([]);
+        document.getElementById('matches').innerHTML = "";
 
         event.preventDefault();
     }
@@ -78,6 +86,10 @@ function displayMatches(matches){
       adjustedWidth = Math.floor(laneWidth * 1.2);
   // Clear background of shapes
   ctx.fillRect(cvs.width-adjustedWidth,0,adjustedWidth, cvs.height);
+
+  if(matches.length){
+    drawPointCloud(outlines.Normalize(points), cvs.width-laneWidth, 300, laneWidth, "red");
+  }
 
   var matchesElem = document.getElementById('matches'),
       output = "<div>",
@@ -90,7 +102,12 @@ function displayMatches(matches){
 
       if(rank>1){
           // Render Canvas Shape Feedback
-          drawPointCloud(matches[i].Name, cvs.width-laneWidth, 10+ i * laneWidth * 1.2, laneWidth, getShade(matches[i].Score) );
+          drawPointCloud(
+              getPointCloud(matches[i].Name),
+              cvs.width-laneWidth,
+              10+ i * laneWidth * 1.2,
+              laneWidth,
+              getShade(matches[i].Score) );
 
           // Render DOM UI
           output += "<span>'" + matches[i].Name + "' : " + (rank.toFixed(1)) + "</span></br>";
@@ -105,18 +122,21 @@ function getShade(score){
   return "rgb("+ Math.floor(score*255) +", "+ Math.floor(score*255) +", "+ Math.floor(score*255) +")";
 }
 
-function drawPointCloud(name, x, y, scale, color){
-    var i, points;
-    // Find the point cloud based on the supplied name
-    for( i = 0; i<recognizer.PointClouds.length; i++){
-        if(recognizer.PointClouds[i].Name === name){
-            points = recognizer.PointClouds[i].Points;
-            break;
-        }
-    }
-    if( !points ){
-        return;
-    }
+function getPointCloud(name){
+  var i, points;
+
+  // Find the point cloud based on the supplied name
+  for( i = 0; i<recognizer.PointClouds.length; i++){
+      if(recognizer.PointClouds[i].Name === name){
+          points = recognizer.PointClouds[i].Points;
+          break;
+      }
+  }
+  return points;
+}
+
+function drawPointCloud(points, x, y, scale, color){
+    var i;
 
     for( i = 1; i< points.length; i++){
         // Draw from the previous point to this point so long as they have the same

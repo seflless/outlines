@@ -87,13 +87,13 @@ function onTouchEnd(event){
   onMouseUp(event);
 }
 
-document.addEventListener("mousedown", onMouseDown, false);
-document.addEventListener("mousemove", onMouseMove, false);
-document.addEventListener("mouseup", onMouseUp, false);
+cvs.addEventListener("mousedown", onMouseDown, false);
+cvs.addEventListener("mousemove", onMouseMove, false);
+cvs.addEventListener("mouseup", onMouseUp, false);
 
-document.addEventListener("touchstart", onTouchStart, false);
-document.addEventListener("touchmove", onTouchMove, false);
-document.addEventListener("touchend", onTouchEnd, false);
+cvs.addEventListener("touchstart", onTouchStart, false);
+cvs.addEventListener("touchmove", onTouchMove, false);
+cvs.addEventListener("touchend", onTouchEnd, false);
 
 var cancelButton = document.getElementById('cancel');
 Touche(cancelButton).on('click', reset);

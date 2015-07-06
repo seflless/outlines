@@ -96,7 +96,7 @@ cvs.addEventListener("touchmove", onTouchMove, false);
 cvs.addEventListener("touchend", onTouchEnd, false);
 
 var cancelButton = document.getElementById('cancel');
-Touche(cancelButton).on('click', reset);
+cancelButton.addEventListener("touchstart", reset, false);
 
 function reset(){
     var result = recognizer.Recognize(points);

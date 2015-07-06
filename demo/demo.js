@@ -32,7 +32,7 @@ var last = {
     points = [],
     strokeId = 0;
 
-document.addEventListener("mousedown", function(event){
+function onMouseDown(event){
     event.preventDefault();
     event.stopPropagation();
 
@@ -43,9 +43,9 @@ document.addEventListener("mousedown", function(event){
     strokeId++;
 
     points.push( new outlines.Point(last.x, last.y, strokeId) );
-}, false);
+}
 
-document.addEventListener("mousemove", function(){
+function onMouseMove(event){
     event.preventDefault();
     event.stopPropagation();
 
@@ -62,14 +62,39 @@ document.addEventListener("mousemove", function(){
 
     var matches = recognizer.Rank(points);
     displayMatches(matches);
-}, false);
+}
 
-document.addEventListener("mouseup", function(){
+function onMouseUp(event){
     event.preventDefault();
     event.stopPropagation();
 
     mouseIsDown = false;
-}, false);
+}
+
+function onTouchStart(event){
+    event.clientX = event.changedTouches[0].clientX;
+    event.clientY = event.changedTouches[0].clientY;
+    onMouseDown(event);
+}
+
+function onTouchMove(event){
+  event.clientX = event.changedTouches[0].clientX;
+  event.clientY = event.changedTouches[0].clientY;
+  onMouseMove(event);
+}
+
+function onTouchEnd(event){
+  onMouseUp(event);
+}
+
+document.addEventListener("mousedown", onMouseDown, false);
+document.addEventListener("mousemove", onMouseMove, false);
+document.addEventListener("mouseup", onMouseUp, false);
+
+document.addEventListener("touchstart", onTouchStart, false);
+document.addEventListener("touchmove", onTouchMove, false);
+document.addEventListener("touchend", onTouchEnd, false);
+
 
 document.addEventListener("keydown", function(event){
     if( event.keyCode === 32 ) {

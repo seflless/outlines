@@ -95,9 +95,9 @@ document.addEventListener("touchstart", onTouchStart, false);
 document.addEventListener("touchmove", onTouchStart, false);
 document.addEventListener("touchend", onTouchStart, false);
 
-cvs.addEventListener("touchstart", onTouchStart, false);
-cvs.addEventListener("touchmove", onTouchMove, false);
-cvs.addEventListener("touchend", onTouchEnd, false);
+cvs.addEventListener("touchstart", onTouchStart, true);
+cvs.addEventListener("touchmove", onTouchMove, true);
+cvs.addEventListener("touchend", onTouchEnd, true);
 
 var cancelButton = document.getElementById('cancel');
 cancelButton.addEventListener("touchstart", reset, false);

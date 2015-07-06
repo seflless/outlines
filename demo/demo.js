@@ -1,17 +1,19 @@
 (function(){
 
-var cvs = document.getElementById("cvs"),
+var width = 320,
+    height = 480*2,
+    laneWidth = width/8,
+    cvs = document.getElementById("canvas"),
     ctx = cvs.getContext('2d'),
     recognizer = new outlines.Recognizer();
 
-cvs.width = 800;
-cvs.height = 800;
+cvs.width = width;
+cvs.height = height;
 
-ctx.fillStyle = "black";
-ctx.fillRect(0,0,cvs.width, cvs.height);
+initializeCanvas();
 
 function line(x0, y0, x1, y1, color){
-    ctx.strokeStyle = color ? color: "white";
+    ctx.strokeStyle = color ? color: "blue";
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.lineWidth = 3;
@@ -21,52 +23,57 @@ function line(x0, y0, x1, y1, color){
     ctx.stroke();
 }
 
-var lastX = 0,
+var last = {
+      x: 0,
+      y: 0
+    },
     lastY = 0,
     mouseIsDown = false,
     points = [],
     strokeId = 0;
 
 document.addEventListener("mousedown", function(event){
-    lastX = event.clientX;
-    lastY = event.clientY;
+    event.preventDefault();
+    event.stopPropagation();
+
+    last = getLocalCoordinates(event);
 
     mouseIsDown = true;
 
     strokeId++;
 
-
-
-    points.push( new outlines.Point(lastX, lastY, strokeId) );
-
-    console.log('mousedown');
+    points.push( new outlines.Point(last.x, last.y, strokeId) );
 }, false);
 
 document.addEventListener("mousemove", function(){
-    console.log('mousemove');
+    event.preventDefault();
+    event.stopPropagation();
+
     if(!mouseIsDown){
         return;
     }
-    line(lastX, lastY, event.clientX, event.clientY);
 
-    lastX = event.clientX;
-    lastY = event.clientY;
+    var mouse = getLocalCoordinates(event);
 
-    points.push( new outlines.Point(lastX, lastY, strokeId) );
+    line(last.x, last.y, mouse.x, mouse.y);
+    last = mouse;
+
+    points.push( new outlines.Point(mouse.x, mouse.y, strokeId) );
 
     var matches = recognizer.Rank(points);
     displayMatches(matches);
 }, false);
 
 document.addEventListener("mouseup", function(){
+    event.preventDefault();
+    event.stopPropagation();
+
     mouseIsDown = false;
-    console.log('mouseup');
 }, false);
 
 document.addEventListener("keydown", function(event){
     if( event.keyCode === 32 ) {
-        ctx.fillStyle = "black";
-        ctx.fillRect(0,0,cvs.width, cvs.height);
+
 
         var result = recognizer.Recognize(points);
         console.log( "Result: " + result.Name + " (" + result.Score.toFixed(2) + ")." );
@@ -74,18 +81,27 @@ document.addEventListener("keydown", function(event){
         strokeId = 0;
 
         // Clear our matched display info
-        displayMatches([]);
+        initializeCanvas();
         document.getElementById('matches').innerHTML = "";
 
         event.preventDefault();
     }
 }, false);
 
+function initializeCanvas(){
+    ctx.clearRect(0,0,cvs.width, cvs.height);
+
+    // Draw all the set of shapes
+    var i;
+    for(i = 0; i<recognizer.PointClouds.length; i++ ){
+        drawPointCloud(recognizer.PointClouds[i].Points, (i%8)*laneWidth, 380+Math.floor(i/8)*laneWidth, laneWidth*0.9, "#9f9fff");
+    }
+}
+
 function displayMatches(matches){
-  var laneWidth = 100,
-      adjustedWidth = Math.floor(laneWidth * 1.2);
+  var adjustedWidth = Math.floor(laneWidth * 1.2);
   // Clear background of shapes
-  ctx.fillRect(cvs.width-adjustedWidth,0,adjustedWidth, cvs.height);
+  ctx.clearRect(cvs.width-adjustedWidth,0,adjustedWidth, 370);
 
   if(matches.length){
     drawPointCloud(outlines.Normalize(points), cvs.width-laneWidth, 300, laneWidth, "red");
@@ -118,8 +134,15 @@ function displayMatches(matches){
 
 }
 
+function getLocalCoordinates(event){
+    return {
+      x: event.clientX - cvs.offsetLeft + window.scrollX,
+      y: event.clientY - cvs.offsetTop + window.scrollY,
+    };
+}
+
 function getShade(score){
-  return "rgb("+ Math.floor(score*255) +", "+ Math.floor(score*255) +", "+ Math.floor(score*255) +")";
+  return "rgb("+ Math.floor((1.0-score)*255) +", "+ Math.floor((1.0-score)*255) +", "+ Math.floor((1.0-score)*255) +")";
 }
 
 function getPointCloud(name){

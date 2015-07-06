@@ -91,6 +91,7 @@ cvs.addEventListener("mousedown", onMouseDown, false);
 cvs.addEventListener("mousemove", onMouseMove, false);
 cvs.addEventListener("mouseup", onMouseUp, false);
 
+document.addEventListener("touchstart", onTouchStart, false);
 cvs.addEventListener("touchstart", onTouchStart, false);
 cvs.addEventListener("touchmove", onTouchMove, false);
 cvs.addEventListener("touchend", onTouchEnd, false);

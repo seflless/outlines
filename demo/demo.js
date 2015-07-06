@@ -1,7 +1,7 @@
 (function(){
 
 var width = 320,
-    height = 480*2,
+    height = 480,
     laneWidth = width/8,
     cvs = document.getElementById("canvas"),
     ctx = cvs.getContext('2d'),
@@ -95,20 +95,23 @@ document.addEventListener("touchstart", onTouchStart, false);
 document.addEventListener("touchmove", onTouchMove, false);
 document.addEventListener("touchend", onTouchEnd, false);
 
+var cancelButton = document.getElementById('cancel');
+Touche(cancelButton).on('click', reset);
+
+function reset(){
+    var result = recognizer.Recognize(points);
+    points = [];
+    strokeId = 0;
+
+    // Clear our matched display info
+    initializeCanvas();
+    document.getElementById('matches').innerHTML = "";
+}
+
 
 document.addEventListener("keydown", function(event){
     if( event.keyCode === 32 ) {
-
-
-        var result = recognizer.Recognize(points);
-        console.log( "Result: " + result.Name + " (" + result.Score.toFixed(2) + ")." );
-        points = [];
-        strokeId = 0;
-
-        // Clear our matched display info
-        initializeCanvas();
-        document.getElementById('matches').innerHTML = "";
-
+        reset();
         event.preventDefault();
     }
 }, false);

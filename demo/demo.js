@@ -91,18 +91,18 @@ cvs.addEventListener("mousedown", onMouseDown, false);
 cvs.addEventListener("mousemove", onMouseMove, false);
 cvs.addEventListener("mouseup", onMouseUp, false);
 
-document.addEventListener("touchstart", onTouchStart, false);
-document.addEventListener("touchmove", onTouchMove, false);
-document.addEventListener("touchend", onTouchEnd, false);
-
-cvs.addEventListener("touchstart", onTouchStart, true);
-cvs.addEventListener("touchmove", onTouchMove, true);
-cvs.addEventListener("touchend", onTouchEnd, true);
+cvs.addEventListener("touchstart", onTouchStart, false);
+cvs.addEventListener("touchmove", onTouchMove, false);
+cvs.addEventListener("touchend", onTouchEnd, false);
 
 var cancelButton = document.getElementById('cancel');
 cancelButton.addEventListener("touchstart", reset, false);
+cancelButton.addEventListener("mousedown", reset, true);
 
-function reset(){
+function reset(event){
+    event.preventDefault();
+    event.stopPropagation();
+
     var result = recognizer.Recognize(points);
     points = [];
     strokeId = 0;
@@ -115,8 +115,7 @@ function reset(){
 
 document.addEventListener("keydown", function(event){
     if( event.keyCode === 32 ) {
-        reset();
-        event.preventDefault();
+        reset(event);
     }
 }, false);
 

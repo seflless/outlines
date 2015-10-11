@@ -17,7 +17,7 @@ Recognize drawn shapes based on their point clouds.
   - [x] Make a demo that shows top guesses as you are drawing
   - [ ] Document the API
   - [ ] Create demos and explanation
-    - [ ] Article: Understanding the limits of the algorithm and work arounds
+    - [ ] Article: Understanding the algorithm, it's limits, extending it (See Rotation Invariance), and work arounds
     - [ ] Demo: Basic flow chart tool with modeless gesture based object and connection interface
       - [ ] Support squares, rectangles,
     - [ ] Demo: Rotation invariance and auto complete on the screen (some of this will be figured out from flowchart tool)

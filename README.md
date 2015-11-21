@@ -23,6 +23,7 @@ Recognize drawn shapes based on their point clouds.
     - [ ] Demo: Rotation invariance and auto complete on the screen (some of this will be figured out from flowchart tool)
     - [ ] Demo: Dynamic Drawing (Bret Victor) style sequencer?
     - [ ] Demo: Extendible system like Chalk Talk (Ken Perlin)?
+    - Auto draw that is extendible would be cool, see: http://www.wired.com/2015/10/microsofts-badass-new-tool-is-like-autocomplete-for-drawing/
 
 ## References
   - Based on the **$P Point-Cloud Recognizer** research paper

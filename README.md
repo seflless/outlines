@@ -1,13 +1,13 @@
 ## Overview
 Recognize drawn shapes based on their point clouds.
 
-![Spiral](images/spiral.png)
+[Demo](http://francoislaberge.com/outlines/demo/index.html)
 
 ## Installation
 
     npm install outlines
 
-## Usages
+## Usage
 
 **TODO:** Fill this out.
 

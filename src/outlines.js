@@ -91,22 +91,50 @@ function Result(name, score) {
 }
 
 //
-// PDollarRecognizer class constants
+// Recognizer class constants
 //
-var NumPointClouds = 16;
 var NumPoints = 32;
 var Origin = new Point(0,0,0);
 //
-// PDollarRecognizer class
+// Recognizer class
 //
 
 //constructor
-function PDollarRecognizer() {
+function Recognizer(gestures) {
 	//
 	// one predefined point-cloud for each gesture
 	//
-	this.PointClouds = new Array(NumPointClouds);
-	this.PointClouds[0] = new PointCloud("T", new Array(
+	this.PointClouds = [];
+
+    // FRANCOIS: Testing various shapes
+        // Square
+    this.PointClouds.push(new PointCloud("sq", [
+		new Point(0,0,1), new Point(10,0,1),
+		new Point(10,10,1), new Point(0,10,1),
+        new Point(0, 0, 1)
+	]));
+        // Horizontal Line
+    this.PointClouds.push(new PointCloud("h", [
+		new Point(0,0,1), new Point(10,0,1)
+	]));
+        // Vertical Line
+    this.PointClouds.push(new PointCloud("v", [
+		new Point(0,0,1), new Point(0,10,1)
+	]));
+        // Circle Line
+    var circlePoints = [];
+    for(var i = 0; i<NumPoints; i++){
+        circlePoints.push( new Point(
+            Math.floor(Math.sin(i/(NumPoints-1)*Math.PI*2)*100),
+            Math.floor(Math.cos(i/(NumPoints-1)*Math.PI*2)*100),
+            1 ) );
+    }
+    this.PointClouds.push(new PointCloud("ci", circlePoints));
+
+    // FRANCOIS: Previous built in gestures. Need to refactor code to make these
+    // specified in some other way than baked in
+    /*
+    this.PointClouds[0] = new PointCloud("T", new Array(
 		new Point(30,7,1),new Point(103,7,1),
 		new Point(66,7,2),new Point(66,87,2)
 	));
@@ -171,10 +199,12 @@ function PDollarRecognizer() {
 	this.PointClouds[15] = new PointCloud("half-note", new Array(
 		new Point(546,465,1),new Point(546,531,1),
 		new Point(540,530,2),new Point(536,529,2),new Point(533,528,2),new Point(529,529,2),new Point(524,530,2),new Point(520,532,2),new Point(515,535,2),new Point(511,539,2),new Point(508,545,2),new Point(506,548,2),new Point(506,554,2),new Point(509,558,2),new Point(512,561,2),new Point(517,564,2),new Point(521,564,2),new Point(527,563,2),new Point(531,560,2),new Point(535,557,2),new Point(538,553,2),new Point(542,548,2),new Point(544,544,2),new Point(546,540,2),new Point(546,536,2)
-	));
-	//
-	// The $P Point-Cloud Recognizer API begins here -- 3 methods: Recognize(), AddGesture(), DeleteUserGestures()
-	//
+	));*/
+
+
+	/*
+	 * The $P Point-Cloud Recognizer API begins here -- 3 methods: Recognize(), AddGesture(), DeleteUserGestures()
+	 */
 	this.Recognize = function(points)
 	{
 		points = Normalize(points);
@@ -193,7 +223,7 @@ function PDollarRecognizer() {
 	};
 
 	/*
-   * Similar to Recognize() but instead of returning the closest match, instead it
+     * Similar to Recognize() but instead of returning the closest match, instead it
 	 * returns a list of matches sorted by the closest match to the farthest
 	 */
 	this.Rank = function(points)
@@ -220,22 +250,6 @@ function PDollarRecognizer() {
 
 		return matches;
 	};
-
-	this.AddGesture = function(name, points)
-	{
-		this.PointClouds[this.PointClouds.length] = new PointCloud(name, points);
-		var num = 0;
-		for (var i = 0; i < this.PointClouds.length; i++) {
-			if (this.PointClouds[i].Name == name)
-				num++;
-		}
-		return num;
-	}
-	this.DeleteUserGestures = function()
-	{
-		this.PointClouds.length = NumPointClouds; // clear any beyond the original set
-		return NumPointClouds;
-	}
 }
 //
 // Private helper functions from this point down
@@ -391,9 +405,9 @@ function Distance(p1, p2) {
 
 var outlines = {
         Point: Point,
-        Recognizer: PDollarRecognizer,
-				PointCloud: PointCloud,
-				Normalize: Normalize
+        Recognizer: Recognizer,
+		PointCloud: PointCloud,
+		Normalize: Normalize
     };
 
 if ( typeof module !== 'undefined' && typeof module.exports !== 'undefined' ) {

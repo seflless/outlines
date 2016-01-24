@@ -108,17 +108,37 @@ function Recognizer(gestures) {
 
     // FRANCOIS: Testing various shapes
         // Square
-    this.PointClouds.push(new PointCloud("sq", [
-		new Point(0,0,1), new Point(10,0,1),
-		new Point(10,10,1), new Point(0,10,1),
+    this.PointClouds.push(new PointCloud("Square", [
+        // TL
+		new Point(0,0,1),
+        // TR
+        new Point(10,0,1),
+        // BR
+		new Point(10,10,1),
+        // BL
+        new Point(0,10,1),
+        // TL again to close the square
         new Point(0, 0, 1)
 	]));
+        // Diamond
+    this.PointClouds.push(new PointCloud("Diamond", [
+        // Top
+		new Point(0,-1,1),
+        // Right
+        new Point(1,0,1),
+        // Bottom
+		new Point(0,1,1),
+        // Left
+        new Point(-1,0,1),
+        // Top again to close the diamond
+        new Point(0, -1, 1)
+    ]));
         // Horizontal Line
-    this.PointClouds.push(new PointCloud("h", [
+    this.PointClouds.push(new PointCloud("Horizontal", [
 		new Point(0,0,1), new Point(10,0,1)
 	]));
         // Vertical Line
-    this.PointClouds.push(new PointCloud("v", [
+    this.PointClouds.push(new PointCloud("Vertical", [
 		new Point(0,0,1), new Point(0,10,1)
 	]));
         // Circle Line
@@ -129,7 +149,7 @@ function Recognizer(gestures) {
             Math.floor(Math.cos(i/(NumPoints-1)*Math.PI*2)*100),
             1 ) );
     }
-    this.PointClouds.push(new PointCloud("ci", circlePoints));
+    this.PointClouds.push(new PointCloud("Circle", circlePoints));
 
     // FRANCOIS: Previous built in gestures. Need to refactor code to make these
     // specified in some other way than baked in

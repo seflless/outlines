@@ -112,11 +112,11 @@ function Recognizer(gestures) {
         // TL
 		new Point(0,0,1),
         // TR
-        new Point(10,0,1),
+        new Point(1.3,0,1),
         // BR
-		new Point(10,10,1),
+		new Point(1.3,1,1),
         // BL
-        new Point(0,10,1),
+        new Point(0,1,1),
         // TL again to close the square
         new Point(0, 0, 1)
 	]));
@@ -125,11 +125,11 @@ function Recognizer(gestures) {
         // Top
 		new Point(0,-1,1),
         // Right
-        new Point(1,0,1),
+        new Point(1.3,0,1),
         // Bottom
 		new Point(0,1,1),
         // Left
-        new Point(-1,0,1),
+        new Point(-1.3,0,1),
         // Top again to close the diamond
         new Point(0, -1, 1)
     ]));

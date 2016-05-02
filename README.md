@@ -9,21 +9,32 @@ Recognize drawn shapes based on their point clouds.
 
 ## Usage
 
-**TODO:** Fill this out.
+```js
+var outlines = require('outlines'),
+    recognizer = outlines.Recognizer(),
+    Point = outlines.Point,
+    gesture = [];
 
-## Todo
+// Create an array of the points making up a gesture you want to find
+// a match for.
+// new Point(x, y, strokeId)
+// strokeId should be incremented for each new stroke. Ie. If a user lifts and
+// touches/mouses down again each subsequent stream of points is a separate stroke
+gesture.push(new Point(0, 0, 0))
+gesture.push(new Point(10, 10, 0))
+gesture.push(new Point(20, 20, 0));
 
-  - [ ] Figure out if we can support scale (already working?, well x/y aren't independent) and rotation invariance
-  - [x] Make a demo that shows top guesses as you are drawing
-  - [ ] Document the API
-  - [ ] Create demos and explanation
-    - [ ] Article: Understanding the algorithm, it's limits, extending it (See Rotation Invariance), and work arounds
-    - [ ] Demo: Basic flow chart tool with modeless gesture based object and connection interface
-      - [ ] Support squares, rectangles,
-    - [ ] Demo: Rotation invariance and auto complete on the screen (some of this will be figured out from flowchart tool)
-    - [ ] Demo: Dynamic Drawing (Bret Victor) style sequencer?
-    - [ ] Demo: Extendible system like Chalk Talk (Ken Perlin)?
-    - Auto draw that is extendible would be cool, see: http://www.wired.com/2015/10/microsofts-badass-new-tool-is-like-autocomplete-for-drawing/
+gesture.push(new Point(40, 40, 1));
+gesture.push(new Point(50, 50, 1));
+gesture.push(new Point(60, 60, 1));
+
+// Get a list in ranked (closest to furthest match)
+// Note: For now there is a built in set of symbols. You could replace a recognizers
+// set of symbols though, see the implementation to figure out how:
+// https://github.com/francoislaberge/outlines/blob/master/src/outlines.js#L107-L152
+var matches = recognizer.Rank(gesture);
+console.log(matches);
+```
 
 ## References
   - Based on the **$P Point-Cloud Recognizer** research paper

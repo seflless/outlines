@@ -324,10 +324,19 @@ function Normalize(points){
 	return points;
 };
 
+function clonePoints(points){
+	var newPoints = [];
+	points.forEach(function(pt){
+		newPoints.push(new Point(pt.X, pt.Y, pt.ID));
+	});
+	return newPoints;
+}
+
 function Resample(points, n) {
+	points = clonePoints(points);
 	var I = PathLength(points) / (n - 1); // interval length
 	var D = 0.0;
-	var newpoints = new Array(points[0]);
+	var newpoints = new Array( new Point(points[0].X, points[0].Y, points[0].ID) );
 	for (var i = 1; i < points.length; i++)
 	{
 		if (points[i].ID == points[i-1].ID)

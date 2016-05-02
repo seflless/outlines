@@ -5,7 +5,11 @@ var width = 320,
     laneWidth = width/8,
     cvs = document.getElementById("canvas"),
     ctx = cvs.getContext('2d'),
-    recognizer = new outlines.Recognizer();
+    recognizer = new outlines.Recognizer(),
+    last,
+    mouseIsDown = false,
+    points = [],
+    strokeId = 0;
 
 cvs.width = width;
 cvs.height = height;
@@ -23,14 +27,7 @@ function line(x0, y0, x1, y1, color){
     ctx.stroke();
 }
 
-var last = {
-      x: 0,
-      y: 0
-    },
-    lastY = 0,
-    mouseIsDown = false,
-    points = [],
-    strokeId = 0;
+
 
 function onMouseDown(event){
     event.preventDefault();

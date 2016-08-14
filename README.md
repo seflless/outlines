@@ -1,7 +1,7 @@
 ## Overview
 Recognize drawn shapes based on their point clouds.
 
-[Demo](http://francoislaberge.com/outlines/demo/index.html)
+See [Point Cloud Demo](http://francoislaberge.com/outlines/examples/point-cloud.html).
 
 ## Installation
 

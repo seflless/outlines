@@ -1,5 +1,19 @@
 # Todo
+  - Make a cool chalktalk like system
+  - Add support for more recognizers
+    - [UnistrokeRecognizer](http://depts.washington.edu/aimgroup/proj/dollar/)
+    - [MultiStrokeRecognizer](http://depts.washington.edu/aimgroup/proj/dollar/ndollar.html)
+    - [Grail's](https://jackschaedler.github.io/handwriting-recognition/)
+    - Rename existing Recognizer to PointCloudRecognizer
+    - Add other historical ones?
+      - [Palm Graffiti](https://en.wikipedia.org/wiki/Graffiti_(Palm_OS))
+    - Make sure to credit everyone and everything with well thought out traces
+    - Read through the papers too
 
+
+
+# Old Todo
+  - More rese
   - [ ] Figure out if we can support scale (already working?, well x/y aren't independent) and rotation invariance
   - [x] Make a demo that shows top guesses as you are drawing
   - [ ] Document the API

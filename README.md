@@ -41,3 +41,7 @@ console.log(matches);
     - [$P project page](http://depts.washington.edu/aimgroup/proj/dollar/pdollar.html)
     - [PDF of paper](http://faculty.washington.edu/wobbrock/pubs/icmi-12.pdf)
     - [Pseudo Code](http://depts.washington.edu/aimgroup/proj/dollar/pdollar.pdf)
+
+## Coming Soon
+Support for more recognizers will be added soonish. Here's a sneak peak of
+the [Unistroke Recognizer](http://francoislaberge.com/outlines/examples/unistroke.html).

@@ -43,5 +43,13 @@ console.log(matches);
     - [Pseudo Code](http://depts.washington.edu/aimgroup/proj/dollar/pdollar.pdf)
 
 ## Coming Soon
-Support for more recognizers will be added soonish. Here's a sneak peak of
-the [Unistroke Recognizer](http://francoislaberge.com/outlines/examples/unistroke.html).
+Support for more recognizers will be added soonish. Here's a sneak peak:
+  - Work in progress: [Unistroke Recognizer](http://francoislaberge.com/outlines/examples/unistroke.html).
+  - Want to add the GRAIL system to this as well
+    -
+    - See [Video](https://www.youtube.com/watch?v=p2LZLYcu_JY&feature=youtu.be&t=24m30s) for motivation
+
+Experiments I'd like to make:
+  - Try reusing icon sets such as [FontAwesome](http://fontawesome.io/icons/), as starting points.
+    - Related: Allow SVG and fonts as potential sources?
+        - For SVG: Try: http://helpfulsheep.com/2015-03-25-converting-svg-fonts-to-svg/

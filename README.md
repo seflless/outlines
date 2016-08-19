@@ -46,8 +46,11 @@ console.log(matches);
 Support for more recognizers will be added soonish. Here's a sneak peak:
   - Work in progress: [Unistroke Recognizer](http://francoislaberge.com/outlines/examples/unistroke.html).
   - Want to add the GRAIL system to this as well
-    -
+    - https://jackschaedler.github.io/handwriting-recognition/
     - See [Video](https://www.youtube.com/watch?v=p2LZLYcu_JY&feature=youtu.be&t=24m30s) for motivation
+  - Talk to Ken Perlin and ask what he's using for Chalktalk
+  - Some notes related to the history of hand writing recognition
+    - http://www.osnews.com/story/26838/Palm_I_m_ready_to_wallow_now/page2/
 
 Experiments I'd like to make:
   - Try reusing icon sets such as [FontAwesome](http://fontawesome.io/icons/), as starting points.

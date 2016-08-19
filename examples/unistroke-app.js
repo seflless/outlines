@@ -104,6 +104,11 @@ function onMouseUp(event){
 
     console.log(match);
 
+    // Draw final normalized unistroke
+    var strokes = new Unistroke("triangle", points);
+    drawPointCloud(strokes.Points, 0, 0, 1.0, "red");
+
+
     // Clear canvas, points, etc
     reset(event);
 }
@@ -155,7 +160,7 @@ function initializeCanvas(){
     // Draw all the set of shapes
     var i;
     for(i = 0; i<recognizer.Unistrokes.length; i++ ){
-        //drawPointCloud(recognizer.Unistrokes[i].Points, (i%8)*laneWidth, 380+Math.floor(i/8)*laneWidth, laneWidth*0.9, "#9f9fff");
+        drawPointCloud(recognizer.Unistrokes[i].Points, 100+(i%8)*laneWidth, 380+Math.floor(i/8)*laneWidth, laneWidth*0.001, "#9f9fff");
     }
 }
 

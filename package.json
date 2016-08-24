@@ -1,6 +1,6 @@
 {
   "name": "outlines",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Recognize drawn shapes.",
   "main": "src/outlines.js",
   "scripts": {

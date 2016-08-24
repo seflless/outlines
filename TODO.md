@@ -1,5 +1,15 @@
 # Todo
   - Make a cool chalktalk like system
+  - Make a cool demo with the following shapes an accompanying Category Theory / Basic Vectors system
+    - Points (circular outline with mostly filled in inside, makes for an interesting mixed style matching system)
+    - Circles
+    - Lines
+      - With Arrow Head Modifier
+    - Scratch out
+    - Transform? (Arrow head could be this sorta)
+    - Is there a different between a transform and a state change? (Not really, or Category morphism)
+  - Narrowing system where you draw the basic gist of the icon, which auto suggests possible refinements
+    - User can then refine it further with more strokes, think happy face versus sad face (circle stroke then upside down or right side up frown)
   - Add support for more recognizers
     - [UnistrokeRecognizer](http://depts.washington.edu/aimgroup/proj/dollar/)
     - [MultiStrokeRecognizer](http://depts.washington.edu/aimgroup/proj/dollar/ndollar.html)

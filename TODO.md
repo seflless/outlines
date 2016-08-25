@@ -23,6 +23,7 @@
     - Rename existing Recognizer to PointCloudRecognizer
     - Add other historical ones?
       - [Palm Graffiti](https://en.wikipedia.org/wiki/Graffiti_(Palm_OS))
+      - **TODO** Look for Newton stuff and see if anyone has nerded out on how it works
     - Make sure to credit everyone and everything with well thought out traces
     - Read through the papers too
    - Use reverse projection plus something like Office Lens or Dropbox's scanner to convert any piece of paper and pen into a gesture converter

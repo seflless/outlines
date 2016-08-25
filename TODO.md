@@ -10,10 +10,14 @@
     - Subgroups (via encircling existing shapes)
       - Squares/rects have one semantics
       - Arbitrary paths another
+      - Have scribbly/wobbly lines mean selection or something like that.
+        - Useful for both selection and zoom to crop selection
     - Is there a different between a transform and a state change? (Not really, or Category morphism)
     - Note (corner cut off rect)
     - Text (speech bubble? or just a T)
     - Ruler (line with two small parallel lines at the end)
+    - Logarithmic Zooming
+      - TODO: Find article I saw (I think about D3 and maybe by MBostock) about why logarithmic scale is superior
   - Narrowing system where you draw the basic gist of the icon, which auto suggests possible refinements
     - User can then refine it further with more strokes, think happy face versus sad face (circle stroke then upside down or right side up frown)
   - Add support for more recognizers

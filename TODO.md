@@ -7,7 +7,13 @@
       - With Arrow Head Modifier
     - Scratch out
     - Transform? (Arrow head could be this sorta)
+    - Subgroups (via encircling existing shapes)
+      - Squares/rects have one semantics
+      - Arbitrary paths another
     - Is there a different between a transform and a state change? (Not really, or Category morphism)
+    - Note (corner cut off rect)
+    - Text (speech bubble? or just a T)
+    - Ruler (line with two small parallel lines at the end)
   - Narrowing system where you draw the basic gist of the icon, which auto suggests possible refinements
     - User can then refine it further with more strokes, think happy face versus sad face (circle stroke then upside down or right side up frown)
   - Add support for more recognizers
@@ -19,6 +25,9 @@
       - [Palm Graffiti](https://en.wikipedia.org/wiki/Graffiti_(Palm_OS))
     - Make sure to credit everyone and everything with well thought out traces
     - Read through the papers too
+   - Use reverse projection plus something like Office Lens or Dropbox's scanner to convert any piece of paper and pen into a gesture converter
+     - Like this, but more useful:
+       - https://www.youtube.com/watch?v=RApLjEDXDcA
 
 
 

@@ -18,6 +18,11 @@
     - Ruler (line with two small parallel lines at the end)
     - Logarithmic Zooming
       - TODO: Find article I saw (I think about D3 and maybe by MBostock) about why logarithmic scale is superior
+        - https://twitter.com/mbostock/status/733059811940536321
+        - http://bl.ocks.org/mbostock/b783fbb2e673561d214e09c7fb5cedee
+        - https://github.com/d3/d3-zoom#zoom_transform
+        - https://www.win.tue.nl/~vanwijk/zoompan.pdf
+        - https://bl.ocks.org/mhsmith/5734904
   - Narrowing system where you draw the basic gist of the icon, which auto suggests possible refinements
     - User can then refine it further with more strokes, think happy face versus sad face (circle stroke then upside down or right side up frown)
   - Add support for more recognizers

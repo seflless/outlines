@@ -23,6 +23,7 @@
         - https://github.com/d3/d3-zoom#zoom_transform
         - https://www.win.tue.nl/~vanwijk/zoompan.pdf
         - https://bl.ocks.org/mhsmith/5734904
+    - Click and hold to drag objects but still can zoom and pan if you use other fingers too after initiating drag and drop
   - Narrowing system where you draw the basic gist of the icon, which auto suggests possible refinements
     - User can then refine it further with more strokes, think happy face versus sad face (circle stroke then upside down or right side up frown)
   - Add support for more recognizers

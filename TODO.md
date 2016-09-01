@@ -43,7 +43,8 @@
      - Like this, but more useful:
        - https://www.youtube.com/watch?v=RApLjEDXDcA
 
-
+# Example Diagrams
+<img src="images/hierarchical.png" style="width:50%;"/>
 
 # Old Todo
   - More rese

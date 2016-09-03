@@ -30,7 +30,18 @@ function line(x0, y0, x1, y1, color){
     ctx.stroke();
 }
 
+function rect(x, y, width, height, color){
+    ctx.fillStyle = ctx.strokeStyle = color ? color: "blue";
+    ctx.fillRect(x, y, width, height);
+}
 
+function circle(x0, y0, radius, color){
+    ctx.fillStyle = ctx.strokeStyle = color ? color: "blue";
+    ctx.beginPath();
+    ctx.arc(x0, y0, radius, 0, 2 * Math.PI, false);
+    ctx.fill();
+    ctx.stroke();
+}
 
 function onMouseDown(event){
     event.preventDefault();
@@ -58,6 +69,7 @@ function onMouseMove(event){
 
     points.push( new Point(mouse.x, mouse.y) );
 
+    drawFeedback();
     //var matches = recognizer.Rank(points);
     //displayMatches(matches);
 }
@@ -188,6 +200,18 @@ function getPointCloud(name){
   return points;
 }
 
+function drawFeedback(){
+    if ( points.length <= 1 ) {
+        return;
+    }
+
+    rect( 0, 0, laneWidth, laneWidth, "white" );
+
+    var unistroke = new Unistroke("", points);
+    drawPointCloud(unistroke.Points, 100, 100, laneWidth*0.001, "#9f9fff");
+    
+}
+
 function drawPointCloud(points, x, y, scale, color){
     var i;
 
@@ -200,6 +224,11 @@ function drawPointCloud(points, x, y, scale, color){
           color
         );
     }
+
+    circle(
+        points[0].X * scale + x + scale/2,
+        points[0].Y * scale + y + scale/2,
+        4, color);
 }
 
 })();

@@ -11,7 +11,6 @@ var ctx = cvs.getContext('2d'),
 
 cvs.width = window.innerWidth;
 cvs.height = window.innerHeight;
-console.log(svg);
 svg.style.width = window.innerWidth+'px';
 svg.style.height = window.innerHeight+'px';
 
@@ -19,11 +18,12 @@ var laneWidth = cvs.width/8;
 
 initializeCanvas();
 
-function line(x0, y0, x1, y1, color){
+function line(x0, y0, x1, y1, color, thickness){
+    thickness = thickness || 3;
     ctx.strokeStyle = color ? color: "blue";
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    ctx.lineWidth = 3;
+    ctx.lineWidth = thickness;
     ctx.beginPath();
     ctx.moveTo(x0, y0);
     ctx.lineTo(x1, y1);
@@ -74,6 +74,11 @@ function onMouseMove(event){
     //displayMatches(matches);
 }
 
+function getColor(){
+    //return "rgb(" + Math.floor(Math.random()*255) + ", " + Math.floor(Math.random()*255) + ", " + Math.floor(Math.random()*255) + ")";
+    return "#9f9fff";
+}
+
 function onMouseUp(event){
     event.preventDefault();
     event.stopPropagation();
@@ -81,8 +86,16 @@ function onMouseUp(event){
     mouseIsDown = false;
 
     var match = recognizer.Recognize(points);
+    var ranks = recognizer.Rank(points);
 
-    if ( match.Name === "rectangle" || match.Name === "circle" ) {
+    /*console.log('--------------');
+    ranks.forEach( (result) => {
+        console.log(result.Name + ": " + result.Score.toFixed(3));
+    });
+    */
+    //console.log(JSON.stringify(ranks, null, '  ') );
+
+    if ( match.Score > 0.70 ) {
         var left = Number.MAX_VALUE;
         var top = Number.MAX_VALUE;
         var right = -Number.MAX_VALUE;
@@ -96,30 +109,47 @@ function onMouseUp(event){
         }
 
 
-        if( match.Name === "rectangle" ) {
-            var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            rect.setAttribute('x', left);
-            rect.setAttribute('y', top);
-            rect.setAttribute('width', (right-left));
-            rect.setAttribute('height', (bottom-top));
-            document.getElementById('shapes').appendChild(rect);
-        } else {
-            var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-            var maxDim = Math.max( right - left, bottom - top );
+        switch( match.Name ) {
+            case "rectangle":
+            case "square":
+                var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute('x', left);
+                rect.setAttribute('y', top);
+                rect.setAttribute('width', (right-left));
+                rect.setAttribute('height', (bottom-top));
+                rect.setAttribute('stroke', getColor() );
+                rect.setAttribute('stroke-width', 2);
+                document.getElementById('shapes').appendChild(rect);
+                break;
+            case "circle":
+                var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                var maxDim = Math.max( right - left, bottom - top );
 
-            circle.setAttribute('cx', (left+right)/2 );
-            circle.setAttribute('cy', (top+bottom)/2 );
-            circle.setAttribute('r', (maxDim/2));
-            document.getElementById('shapes').appendChild(circle);
+                circle.setAttribute('cx', (left+right)/2 );
+                circle.setAttribute('cy', (top+bottom)/2 );
+                circle.setAttribute('r', (maxDim/2));
+                circle.setAttribute('stroke', getColor() );
+                circle.setAttribute('stroke-width', 2);
+                document.getElementById('shapes').appendChild(circle);
+                break;
+            case "line":
+                var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute('x1', points[0].X);
+                line.setAttribute('y1', points[0].Y);
+                line.setAttribute('x2', points[ points.length - 1 ].X);
+                line.setAttribute('y2', points[ points.length - 1 ].Y);
+                line.setAttribute('stroke', getColor() );
+                line.setAttribute('stroke-width', 2);
+                document.getElementById('shapes').appendChild(line);
+                break;
         }
+
     }
 
-    console.log(match);
+    console.log(match.Name + ": " + match.Score.toFixed(2) );
 
-    // Draw final normalized unistroke
-    var strokes = new Unistroke("triangle", points);
-    drawPointCloud(strokes.Points, 0, 0, 1.0, "red");
 
+    //console.log(JSON.stringify(points));
 
     // Clear canvas, points, etc
     reset(event);
@@ -170,10 +200,10 @@ function initializeCanvas(){
     ctx.clearRect(0,0,cvs.width, cvs.height);
 
     // Draw all the set of shapes
-    var i;
-    for(i = 0; i<recognizer.Unistrokes.length; i++ ){
-        drawPointCloud(recognizer.Unistrokes[i].Points, 100+(i%8)*laneWidth, 380+Math.floor(i/8)*laneWidth, laneWidth*0.001, "#9f9fff");
-    }
+    // var i;
+    // for(i = 0; i<recognizer.Unistrokes.length; i++ ){
+    //     drawPointCloud(recognizer.Unistrokes[i].Points, 100+(i%8)*laneWidth, 380+Math.floor(i/8)*laneWidth, laneWidth*0.001, "#9f9fff");
+    // }
 }
 
 function getLocalCoordinates(event){
@@ -200,35 +230,60 @@ function getPointCloud(name){
   return points;
 }
 
+function clonePoints(points){
+    var cloned = [];
+
+    points.forEach( (point) => {
+        cloned.push( new Point(point.X, point.Y) );
+    });
+    return cloned;
+}
+
 function drawFeedback(){
+    return;
     if ( points.length <= 1 ) {
         return;
     }
 
-    rect( 0, 0, laneWidth, laneWidth, "white" );
+    ctx.clearRect(0, 0, laneWidth*1.2, laneWidth*1.2 );
 
-    var unistroke = new Unistroke("", points);
+    var unistroke = new Unistroke("", clonePoints(points) );
     drawPointCloud(unistroke.Points, 100, 100, laneWidth*0.001, "#9f9fff");
-    
 }
 
 function drawPointCloud(points, x, y, scale, color){
     var i;
 
     for( i = 1; i< points.length; i++){
-        line(
-          points[i-1].X * scale + x + scale/2,
-          points[i-1].Y * scale + y + scale/2,
-          points[i].X * scale + x + scale/2,
-          points[i].Y * scale + y + scale/2,
-          color
-        );
+        var x0 = points[i-1].X * scale + x + scale/2;
+        var y0 = points[i-1].Y * scale + y + scale/2;
+        var x1 = points[i].X * scale + x + scale/2;
+        var y1 = points[i].Y * scale + y + scale/2;
+        line( x0, y0, x1, y1, color, 1 );
+
+        // Draw arrow
+        if( i === 1 || !(i%4) || i === (points.length-1) ) {
+            var diffX = x1 - x0;
+            var diffY = y1 - y0;
+            var len = Math.sqrt( diffX*diffX + diffY*diffY );
+            if(!len) {
+                len = 0.00001;
+            }
+            diffX /= len;
+            diffY /= len;
+
+            var arrowHeadSize = 5;
+            // Left Orthogonal
+            line( x1, y1, x1 - diffY * arrowHeadSize - diffX*arrowHeadSize , y1 + diffX * arrowHeadSize - diffY*arrowHeadSize, color, 1 );
+            line( x1, y1, x1 + diffY * arrowHeadSize - diffX*arrowHeadSize, y1 - diffX * arrowHeadSize - diffY*arrowHeadSize, color, 1 );
+        }
+
     }
 
     circle(
         points[0].X * scale + x + scale/2,
         points[0].Y * scale + y + scale/2,
-        4, color);
+        3, color);
 }
 
 })();

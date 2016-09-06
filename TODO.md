@@ -13,6 +13,8 @@
       - Have scribbly/wobbly lines mean selection or something like that.
         - Useful for both selection and zoom to crop selection
     - Is there a different between a transform and a state change? (Not really, or Category morphism)
+    - Make it so you can subdivide and build tables via creating rectangles and slicing sub sections
+      - Example: Draw a rect, then draw a line dividing it horizontally (to create two rows), then divide it vertically (actually this gets weird unless you can cut multiple rows at once)
     - Note (corner cut off rect)
     - Text (speech bubble? or just a T)
     - Ruler (line with two small parallel lines at the end)

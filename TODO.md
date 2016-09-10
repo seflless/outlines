@@ -1,6 +1,17 @@
 # Todo
+  - Philosophy
+    - All you need are a few primitives and you can do it all
   - Make a cool chalktalk like system
   - Make a cool demo with the following shapes an accompanying Category Theory / Basic Vectors system
+    - Logarithmic Zooming
+      - Work with mousewheel/pinch on desktop
+      - Work with pinch and two finger scroll on mobile
+      - TODO: Find article I saw (I think about D3 and maybe by MBostock) about why logarithmic scale is superior
+        - https://twitter.com/mbostock/status/733059811940536321
+        - http://bl.ocks.org/mbostock/b783fbb2e673561d214e09c7fb5cedee
+        - https://github.com/d3/d3-zoom#zoom_transform
+        - https://www.win.tue.nl/~vanwijk/zoompan.pdf
+        - https://bl.ocks.org/mhsmith/5734904
     - Points (circular outline with mostly filled in inside, makes for an interesting mixed style matching system)
     - Circles
     - Lines
@@ -18,13 +29,6 @@
     - Note (corner cut off rect)
     - Text (speech bubble? or just a T)
     - Ruler (line with two small parallel lines at the end)
-    - Logarithmic Zooming
-      - TODO: Find article I saw (I think about D3 and maybe by MBostock) about why logarithmic scale is superior
-        - https://twitter.com/mbostock/status/733059811940536321
-        - http://bl.ocks.org/mbostock/b783fbb2e673561d214e09c7fb5cedee
-        - https://github.com/d3/d3-zoom#zoom_transform
-        - https://www.win.tue.nl/~vanwijk/zoompan.pdf
-        - https://bl.ocks.org/mhsmith/5734904
     - Click and hold to drag objects but still can zoom and pan if you use other fingers too after initiating drag and drop
     - Create links
       - Gesture of link? How would you navigate? Double click? (Single probably)

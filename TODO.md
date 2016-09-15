@@ -48,6 +48,8 @@
    - Use reverse projection plus something like Office Lens or Dropbox's scanner to convert any piece of paper and pen into a gesture converter
      - Like this, but more useful:
        - https://www.youtube.com/watch?v=RApLjEDXDcA
+  - Research further
+    - https://people.eecs.berkeley.edu/~junyanz/projects/gvm/ (Could we use this technique for auto complete)
 
 # Example Diagrams
 <img src="images/hierarchical.png" style="width:50%"/>

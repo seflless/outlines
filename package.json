@@ -1,26 +1,32 @@
 {
-  "name": "outlines",
-  "version": "1.0.0",
-  "description": "Recognize drawn shapes.",
-  "main": "src/outlines.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./bin/build.sh",
-    "publish:patch": "npm version patch; git push; git push --tags; npm publish",
-    "publish:minor": "npm version minor; git push; git push --tags; npm publish",
-    "publish:major": "npm version major; git push; git push --tags; npm publish"
-  },
-  "keywords": [
-    "recognizer",
-    "sketch",
-    "draw",
-    "shapes",
-    "gesture"
-  ],
-  "author": "Francois Laberge <francoislaberge@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/francoislaberge/outlines"
-  }
+    "name": "outlines",
+    "version": "1.0.0",
+    "description": "Recognize drawn shapes.",
+    "main": "src/outlines.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "./bin/build.sh",
+        "publish:patch": "npm version patch; git push; git push --tags; npm publish",
+        "publish:minor": "npm version minor; git push; git push --tags; npm publish",
+        "publish:major": "npm version major; git push; git push --tags; npm publish"
+    },
+    "keywords": [
+        "recognizer",
+        "sketch",
+        "draw",
+        "shapes",
+        "gesture"
+    ],
+    "author": "Francois Laberge <francoislaberge@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/francoislaberge/outlines"
+    },
+    "bugs": {
+        "url": "https://github.com/francoislaberge/shrinkray/issues"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org"
+    }
 }

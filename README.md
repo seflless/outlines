@@ -2,8 +2,8 @@
 Recognize drawn shapes based on their point clouds.
 
 **Demos:**
- - [Point Cloud](http://francoislaberge.com/outlines/point-cloud/).
- - [Unistroke](http://francoislaberge.com/outlines/unistroke/).
+ - [Point Cloud](http://francoislaberge.com/outlines/point-cloud/)
+ - [Unistroke](http://francoislaberge.com/outlines/unistroke/)
 
 ## Installation
 
@@ -46,7 +46,7 @@ console.log(matches);
 
 ## Coming Soon
 Support for more recognizers will be added soonish. Here's a sneak peak:
-  - Work in progress: [Unistroke Recognizer](http://francoislaberge.com/outlines/examples/unistroke.html).
+  - Work in progress: [Unistroke Recognizer](http://francoislaberge.com/outlines/unistroke/).
   - Want to add the GRAIL system to this as well
     - https://jackschaedler.github.io/handwriting-recognition/
     - See [Video](https://www.youtube.com/watch?v=p2LZLYcu_JY&feature=youtu.be&t=24m30s) for motivation

@@ -1,6 +1,6 @@
 {
   "name": "outlines",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Recognize drawn shapes.",
   "main": "src/outlines.js",
   "scripts": {
@@ -10,23 +10,23 @@
     "publish:minor": "npm version minor; git push; git push --tags; npm publish",
     "publish:major": "npm version major; git push; git push --tags; npm publish"
   },
-  "keywords": [
-    "recognizer",
-    "sketch",
-    "draw",
-    "shapes",
-    "gesture"
-  ],
+  "devDependencies": {
+    "viz.js": "^1.7.1"
+  },
   "author": "Francois Laberge <francoislaberge@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/francoislaberge/outlines"
   },
-  "bugs": {
-    "url": "https://github.com/francoislaberge/shrinkray/issues"
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  }
+  },
+  "keywords": [
+    "recognizer",
+    "sketch",
+    "draw",
+    "shapes",
+    "gesture"
+  ]
 }

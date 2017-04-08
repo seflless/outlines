@@ -2,6 +2,26 @@
 
 var cvs = document.getElementById("canvas");
 var svg = document.getElementById("shapes");
+var dot = document.getElementById("dot");
+
+var graph = {
+    nodes: [
+        /*{
+            id: "circle",
+            shape: "circle",
+            text: "Circle"
+        },
+        {
+            id: "rectangle",
+            shape: "rectangle",
+            text: "Rectangle"
+        }*/
+    ],
+    edges: [
+        /*["circle", "rectangle"],
+        ["rectangle", "circle"]*/
+    ]
+}
 
 var ctx = cvs.getContext('2d'),
     recognizer = new DollarRecognizer(),
@@ -43,15 +63,32 @@ function circle(x0, y0, radius, color){
     ctx.stroke();
 }
 
+let startNode = null;
 function onMouseDown(event){
     event.preventDefault();
     event.stopPropagation();
+
+    startNode = eventToNodeId(event);
 
     last = getLocalCoordinates(event);
 
     mouseIsDown = true;
 
     points.push( new Point(last.x, last.y) );
+}
+
+function eventToNodeId(event){
+    if(graph.nodes.length <= 1){
+        return null;
+    }
+    console.log(event.target.tagName, event.target.id);
+    if(event.target.tagName === "text"){
+        return event.target.parentNode.id;
+    } else if(event.target.tagName === "polygon"){
+        return event.target.nextElementSibling.id;
+    }
+
+    return null;
 }
 
 function onMouseMove(event){
@@ -120,6 +157,11 @@ function onMouseUp(event){
                 rect.setAttribute('stroke', getColor() );
                 rect.setAttribute('stroke-width', 2);
                 document.getElementById('shapes').appendChild(rect);
+
+                setTimeout(()=>{
+                    rect.remove();
+                }, 300);
+
                 break;
             case "circle":
                 var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -131,6 +173,9 @@ function onMouseUp(event){
                 circle.setAttribute('stroke', getColor() );
                 circle.setAttribute('stroke-width', 2);
                 document.getElementById('shapes').appendChild(circle);
+                setTimeout(()=>{
+                    circle.remove();
+                }, 300);
                 break;
             case "line":
                 var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -141,7 +186,32 @@ function onMouseUp(event){
                 line.setAttribute('stroke', getColor() );
                 line.setAttribute('stroke-width', 2);
                 document.getElementById('shapes').appendChild(line);
+                setTimeout(()=>{
+                    line.remove();
+                }, 300);
                 break;
+        }
+
+        if(match.Name !== "line"){
+            graph.nodes.push({
+                id: id(),
+                shape: match.Name,
+                text: "Text"
+            });
+            updateGraph();
+        } else {
+            // If it's a line and the mouseDown was over a node and this is over a different node
+            // create an edge
+            const endNode = eventToNodeId(event);
+            console.log(startNode, endNode);
+            if( match.Name === "line" &&
+                startNode !== null &&
+                endNode !== null &&
+                startNode !== endNode
+            ) {
+                graph.edges.push([startNode, endNode]);
+                updateGraph();
+            }
         }
 
     }
@@ -173,12 +243,13 @@ function onTouchEnd(event){
 
 var targetElement = document;//cvs;
 
-targetElement.addEventListener("mousedown", onMouseDown, false);
-targetElement.addEventListener("mousemove", onMouseMove, false);
-targetElement.addEventListener("mouseup", onMouseUp, false);
-targetElement.addEventListener("touchstart", onTouchStart, false);
-targetElement.addEventListener("touchmove", onTouchMove, false);
-targetElement.addEventListener("touchend", onTouchEnd, false);
+var bubble = true;
+targetElement.addEventListener("mousedown", onMouseDown, bubble);
+targetElement.addEventListener("mousemove", onMouseMove, bubble);
+targetElement.addEventListener("mouseup", onMouseUp, bubble);
+targetElement.addEventListener("touchstart", onTouchStart, bubble);
+targetElement.addEventListener("touchmove", onTouchMove, bubble);
+targetElement.addEventListener("touchend", onTouchEnd, bubble);
 
 function reset(event){
     event.preventDefault();
@@ -284,6 +355,52 @@ function drawPointCloud(points, x, y, scale, color){
         points[0].X * scale + x + scale/2,
         points[0].Y * scale + y + scale/2,
         3, color);
+}
+
+
+
+//document.addEventListener('mousedown', function(){
+//    var result = Viz("digraph { a -> b; }");
+//    dot.innerHTML = dot.innerHTML + result;
+//})
+
+window.generateDot = function generateDot(){
+return `digraph G {
+${generateNodes()}
+${generateEdges()}
+}`
+}
+
+window.generateNodes = function generateNodes(){
+    let nodes = "";
+    graph.nodes.forEach( (node) => {
+        nodes += `\n${node.id} [label="${node.text}" shape=${node.shape} id="${node.id}"]`;
+    });
+return `
+${nodes}
+`
+}
+
+window.generateEdges = function generateEdges(){
+    let edges = "";
+    graph.edges.forEach( (edge) => {
+        edges += `${edge[0]} -> ${edge[1]}\n`;
+    });
+    return edges;
+}
+
+function updateGraph(){
+    var dotString = generateDot();
+    console.log(dotString);
+    var result = Viz(dotString);
+    dot.innerHTML = result;
+
+    document.getElementById('graph0').childNodes[3].remove();
+}
+
+let idCounter = 0;
+function id(){
+    return 'node'+(idCounter++).toString();
 }
 
 })();

@@ -13,9 +13,16 @@
         canvas {
             z-index: 10;
         }
+        #dot{
+            position: absolute;
+            z-index: 3;
+        }
+        polygon{
+            z-index: 10;
+        }
         #shapes{
             position: absolute;
-            z-index: 100;
+            z-index: 2;
             fill: none;
             stroke: black;
         }
@@ -29,9 +36,12 @@
     <div id="container">
         <svg id="shapes">
         </svg>
+        <div id="dot">
+        </div>
         <canvas id="canvas"></canvas>
     </div>
 
+    <script src="../dist/viz.js" type="text/javascript"></script>
     <script src="../dist/Unistroke.js" type="text/javascript"></script>
     <script src="unistroke-app.js" type="text/javascript"></script>
 </body>

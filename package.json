@@ -1,10 +1,11 @@
 {
   "name": "outlines",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "Recognize drawn shapes.",
   "main": "src/outlines.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./bin/build.sh"
   },
   "keywords": [
     "recognizer",
@@ -13,8 +14,8 @@
     "shapes",
     "gesture"
   ],
-  "author": "",
-  "license": "New BSD License",
+  "author": "Francois Laberge <francoislaberge@gmail.com>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/francoislaberge/outlines"

@@ -145,7 +145,6 @@ function onMouseUp(event){
             bottom = Math.max(points[i].Y, bottom);
         }
 
-
         switch( match.Name ) {
             case "rectangle":
             case "square":
@@ -157,11 +156,6 @@ function onMouseUp(event){
                 rect.setAttribute('stroke', getColor() );
                 rect.setAttribute('stroke-width', 2);
                 document.getElementById('shapes').appendChild(rect);
-
-                setTimeout(()=>{
-                    rect.remove();
-                }, 300);
-
                 break;
             case "circle":
                 var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -173,9 +167,6 @@ function onMouseUp(event){
                 circle.setAttribute('stroke', getColor() );
                 circle.setAttribute('stroke-width', 2);
                 document.getElementById('shapes').appendChild(circle);
-                setTimeout(()=>{
-                    circle.remove();
-                }, 300);
                 break;
             case "line":
                 var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -186,34 +177,8 @@ function onMouseUp(event){
                 line.setAttribute('stroke', getColor() );
                 line.setAttribute('stroke-width', 2);
                 document.getElementById('shapes').appendChild(line);
-                setTimeout(()=>{
-                    line.remove();
-                }, 300);
                 break;
         }
-
-        if(match.Name !== "line"){
-            graph.nodes.push({
-                id: id(),
-                shape: match.Name,
-                text: "Text"
-            });
-            updateGraph();
-        } else {
-            // If it's a line and the mouseDown was over a node and this is over a different node
-            // create an edge
-            const endNode = eventToNodeId(event);
-            console.log(startNode, endNode);
-            if( match.Name === "line" &&
-                startNode !== null &&
-                endNode !== null &&
-                startNode !== endNode
-            ) {
-                graph.edges.push([startNode, endNode]);
-                updateGraph();
-            }
-        }
-
     }
 
     console.log(match.Name + ": " + match.Score.toFixed(2) );
@@ -357,46 +322,6 @@ function drawPointCloud(points, x, y, scale, color){
         3, color);
 }
 
-
-
-//document.addEventListener('mousedown', function(){
-//    var result = Viz("digraph { a -> b; }");
-//    dot.innerHTML = dot.innerHTML + result;
-//})
-
-window.generateDot = function generateDot(){
-return `digraph G {
-${generateNodes()}
-${generateEdges()}
-}`
-}
-
-window.generateNodes = function generateNodes(){
-    let nodes = "";
-    graph.nodes.forEach( (node) => {
-        nodes += `\n${node.id} [label="${node.text}" shape=${node.shape} id="${node.id}"]`;
-    });
-return `
-${nodes}
-`
-}
-
-window.generateEdges = function generateEdges(){
-    let edges = "";
-    graph.edges.forEach( (edge) => {
-        edges += `${edge[0]} -> ${edge[1]}\n`;
-    });
-    return edges;
-}
-
-function updateGraph(){
-    var dotString = generateDot();
-    console.log(dotString);
-    var result = Viz(dotString);
-    dot.innerHTML = result;
-
-    document.getElementById('graph0').childNodes[3].remove();
-}
 
 let idCounter = 0;
 function id(){

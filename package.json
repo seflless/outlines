@@ -5,13 +5,15 @@
   "main": "src/outlines.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server docs -p 8080",
     "build": "./bin/build.sh",
     "publish:patch": "npm version patch; git push; git push --tags; npm publish",
     "publish:minor": "npm version minor; git push; git push --tags; npm publish",
     "publish:major": "npm version major; git push; git push --tags; npm publish"
   },
   "devDependencies": {
-    "viz.js": "^1.7.1"
+    "viz.js": "^1.7.1",
+    "http-server": "^0.9.0"
   },
   "author": "Francois Laberge <francoislaberge@gmail.com>",
   "license": "MIT",

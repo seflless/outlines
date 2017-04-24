@@ -38,6 +38,15 @@ var matches = recognizer.Rank(gesture);
 console.log(matches);
 ```
 
+## Contributing
+
+```
+git clone git@github.com:francoislaberge/outlines.git
+cd outlines
+npm install
+npm start
+```
+
 ## References
   - Based on the **$P Point-Cloud Recognizer** research paper
     - [$P project page](http://depts.washington.edu/aimgroup/proj/dollar/pdollar.html)
